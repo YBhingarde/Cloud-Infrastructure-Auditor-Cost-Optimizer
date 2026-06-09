@@ -1,9 +1,12 @@
 def show_menu():
-    print("\n===== Cloud Auditor =====")
+    print("\n================================")
+    print(" Cloud Infrastructure Auditor ")
+    print("================================")
     print("1. Scan Resources")
     print("2. View Results")
-    print("3. Export Report")
-    print("4. Exit")
+    print("3. Generate Report")
+    print("4. Help")
+    print("5. Exit")
 
 
 while True:
