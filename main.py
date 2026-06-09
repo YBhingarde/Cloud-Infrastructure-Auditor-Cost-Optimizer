@@ -1,6 +1,6 @@
 def show_menu():
     print("\n================================")
-    print(" Cloud Infrastructure Auditor ")
+    print("   Cloud Infrastructure Auditor")
     print("================================")
     print("1. Scan Resources")
     print("2. View Results")
@@ -12,7 +12,7 @@ def show_menu():
 while True:
     show_menu()
 
-    choice = input("Choose an option (1-4): ")
+    choice = input("Choose an option (1-5): ")
 
     if choice == "1":
         print("Scanning resources...")
@@ -21,9 +21,16 @@ while True:
         print("Showing scan results...")
 
     elif choice == "3":
-        print("Exporting report...")
+        print("Generating report...")
 
     elif choice == "4":
+        print("\nHelp:")
+        print("1 - Scan AWS resources")
+        print("2 - View previous scan results")
+        print("3 - Generate reports")
+        print("5 - Exit the application")
+
+    elif choice == "5":
         print("Exiting program...")
         break
 
