@@ -1,10 +1,33 @@
 import boto3
 
-# Create EC2 client
-ec2 = boto3.client("ec2", region_name="us-east-1")
+def get_ec2_client(region_name="us-east-1"):
+    return boto3.client(
+        "ec2",
+        region_name=region_name
+    )
 
-# Get all EBS volumes
-response = ec2.describe_volumes()
+def get_available_volumes(region_name="us-east-1"):
+    ec2_client = get_ec2_client(region_name)
 
-# Print all volume information
-print(response)
+    response = ec2_client.describe_volumes(
+        Filters=[
+            {
+                "Name": "status",
+                "Values": ["available"]
+            }
+        ]
+    )
+
+    volume_list = []
+
+    for volume in response["Volumes"]:
+        volume_list.append(
+            {
+                "VolumeId": volume["VolumeId"],
+                "Size": volume["Size"],
+                "State": volume["State"],
+                "Region": region_name
+            }
+        )
+
+    return volume_list
