@@ -92,6 +92,24 @@ class EC2MetricsScanner:
             logger.error(f"Error fetching CloudWatch metrics for {instance_id}: {str(e)}")
             return 0.0
 
+    def _get_estimated_monthly_cost(self, instance_type: str) -> float:
+        """
+        Calculates approximate monthly wasted cost based on common instance types.
+        (Future scope: Integrate AWS Pricing API)
+        """
+        # Standard AWS monthly pricing approximation (in USD)
+        pricing_map = {
+            't2.micro': 8.50,
+            't3.micro': 7.60,
+            't3.medium': 30.40,
+            't3.large': 60.80,
+            'm5.large': 70.00,
+            'c5.large': 62.00
+        }
+        # Default to $20 if instance type is not in our standard map
+        return pricing_map.get(instance_type, 20.00)
+    
+
     def get_underutilized_instances(self) -> List[Dict[str, Any]]:
         """
         Main Business Logic: Filters instances that have CPU utilization < 5%.
@@ -110,6 +128,9 @@ class EC2MetricsScanner:
             
             # CRITERIA: Check if CPU is strictly less than 5%
             if avg_cpu < 5.0:
+                # Calculate money being wasted by this zombie instance
+                wasted_money = self._get_estimated_monthly_cost(instance['instance_type'])
+                
                 # Match the exact team dictionary contract
                 resource_data = {
                     "resource_id": instance_id,
@@ -118,7 +139,8 @@ class EC2MetricsScanner:
                     "status": "running",
                     "metrics": {
                         "average_cpu": avg_cpu,
-                        "days_window": 14
+                        "days_window": 14,
+                        "wasted_cost_usd": wasted_money  # <-- NEW ADVANCED FEATURE
                     },
                     "tags": instance['tags']
                 }
@@ -127,6 +149,8 @@ class EC2MetricsScanner:
         logger.info(f"Analysis complete. Identified {len(underutilized_resources)} underutilized instances.")
         return underutilized_resources
 
+
+         
 # --- Standalone Execution for Testing ---
 if __name__ == "__main__":
     # Test in Mumbai region (ap-south-1)
