@@ -1,0 +1,5 @@
+{
+    "aws_profile": "default",
+    "aws_region": "ap-south-1",
+    "log_level": "INFO"
+}
