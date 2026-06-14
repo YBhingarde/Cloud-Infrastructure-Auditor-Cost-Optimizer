@@ -1,3 +1,4 @@
+from commands.scan import scan
 def show_menu():
     print("\n================================")
     print("   Cloud Infrastructure Auditor")
@@ -15,6 +16,7 @@ while True:
     choice = input("Choose an option (1-5): ")
 
     if choice == "1":
+        scan()
         print("Scanning resources...")
 
     elif choice == "2":

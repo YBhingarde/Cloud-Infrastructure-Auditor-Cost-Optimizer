@@ -1,9 +1,8 @@
-def get_regions():
-    regions = [
-        "us-east-1",
-        "us-west-2",
-        "ap-south-1",
-        "eu-west-1"
-    ]
-    
-    return regions
+SUPPORTED_REGIONS = [
+    "ap-south-1",
+    "us-east-1",
+    "us-west-2"
+]
+
+def get_default_region():
+    return "ap-south-1"
