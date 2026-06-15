@@ -25,7 +25,7 @@ def get_unassociated_elastic_ips():
                     )
 
         except ClientError as e:
-            print(f"Error scanning {region}: {e}")
+            print(f"[EIP Scanner] Failed to scan region {region}: {e}") 
 
     return unused_ips
 

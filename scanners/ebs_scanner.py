@@ -26,7 +26,7 @@ def get_unattached_ebs_volumes():
                     )
 
         except ClientError as e:
-            print(f"Error scanning {region}: {e}")
+            print(f"[EBS Scanner] Failed to scan region {region}: {e}")
 
     return unattached_volumes
 
