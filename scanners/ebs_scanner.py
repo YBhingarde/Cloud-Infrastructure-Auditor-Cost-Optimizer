@@ -14,11 +14,17 @@ def get_unattached_ebs_volumes():
             if volume["State"] == "available":
                 unattached_volumes.append(
                     {
-                        "Region": region,
-                        "VolumeId": volume["VolumeId"],
-                        "Size": volume["Size"],
-                        "State": volume["State"]
+                        "resource_type": "EBS",
+                        "region": region,
+                        "resource_id": volume["VolumeId"],
+                        "size": volume["Size"],
+                        "status": volume["State"]
                     }
                 )
 
     return unattached_volumes
+
+
+
+if __name__ == "__main__":
+    print(get_unattached_ebs_volumes())

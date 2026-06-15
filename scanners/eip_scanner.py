@@ -14,9 +14,11 @@ def get_unassociated_elastic_ips():
             if "AssociationId" not in address:
                 unused_ips.append(
                     {
-                        "Region": region,
-                        "PublicIp": address["PublicIp"],
-                        "AllocationId": address.get("AllocationId"),
+                        "resource_type": "ElasticIP",
+                        "region": region,
+                        "resource_id": address.get("AllocationId"),
+                        "public_ip": address["PublicIp"],
+                        "status": "unassociated"
                     }
                 )
 
