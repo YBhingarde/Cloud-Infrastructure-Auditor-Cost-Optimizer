@@ -31,6 +31,3 @@ def get_unattached_ebs_volumes():
     return unattached_volumes
 
 
-
-if __name__ == "__main__":
-    print(get_unattached_ebs_volumes())

@@ -30,12 +30,3 @@ def get_unassociated_elastic_ips():
     return unused_ips
 
 
-if __name__ == "__main__":
-    unused_ips = get_unassociated_elastic_ips()
-
-    if unused_ips:
-        print("Unused Elastic IPs:")
-        for ip in unused_ips:
-            print(ip)
-    else:
-        print("No unused Elastic IPs found.")
