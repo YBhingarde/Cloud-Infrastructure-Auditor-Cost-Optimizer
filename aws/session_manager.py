@@ -5,7 +5,9 @@ def create_session(profile_name, region):
         "region": region
     }
 
+
 def list_profiles():
+
     return [
         "default",
         "dev",
