@@ -26,6 +26,12 @@ def scan():
     profile = input("\nEnter AWS Profile: ")
 
     region = input("Enter AWS Region: ")
+    if not profile:
+        print("Profile cannot be empty.")
+        return
+    if not region:
+        print("Region cannot be empty.")
+        return
 
 
     log_info("Scan started")

@@ -1,3 +1,5 @@
+#Handles AWS authentication
+
 from aws.session_manager import create_session, list_profiles
 
 from aws.regions import validate_region

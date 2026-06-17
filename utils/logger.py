@@ -1,3 +1,5 @@
+# Handles application logging
+
 from datetime import datetime
 
 
