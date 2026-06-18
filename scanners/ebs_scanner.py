@@ -1,15 +1,15 @@
 import boto3
 from aws.regions import get_regions
 from botocore.exceptions import ClientError
+from aws.ec2_client import get_ec2_client
 
 
 def get_unattached_ebs_volumes():
     unattached_volumes = []
 
     for region in get_regions():
-        ec2 = boto3.client("ec2", region_name=region)
+        ec2 = get_ec2_client(region)
 
-        # THIS PART IS NEW
         try:
             response = ec2.describe_volumes()
 
@@ -21,7 +21,7 @@ def get_unattached_ebs_volumes():
                             "region": region,
                             "resource_id": volume["VolumeId"],
                             "size": volume["Size"],
-                            "status": volume["State"]
+                            "status": volume["State"],
                         }
                     )
 
@@ -29,5 +29,3 @@ def get_unattached_ebs_volumes():
             print(f"[EBS Scanner] Failed to scan region {region}: {e}")
 
     return unattached_volumes
-
-

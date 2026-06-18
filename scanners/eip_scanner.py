@@ -1,13 +1,14 @@
 import boto3
 from aws.regions import get_regions
 from botocore.exceptions import ClientError
+from aws.ec2_client import get_ec2_client
 
 
 def get_unassociated_elastic_ips():
     unused_ips = []
 
     for region in get_regions():
-        ec2 = boto3.client("ec2", region_name=region)
+        ec2 = get_ec2_client(region)
 
         try:
             response = ec2.describe_addresses()
@@ -20,13 +21,11 @@ def get_unassociated_elastic_ips():
                             "region": region,
                             "resource_id": address.get("AllocationId"),
                             "public_ip": address["PublicIp"],
-                            "status": "unassociated"
+                            "status": "unassociated",
                         }
                     )
 
         except ClientError as e:
-            print(f"[EIP Scanner] Failed to scan region {region}: {e}") 
+            print(f"[EIP Scanner] Failed to scan region {region}: {e}")
 
     return unused_ips
-
-
