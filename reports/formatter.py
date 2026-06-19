@@ -1,7 +1,10 @@
 import os
+import json
+import csv
 import logging
+from datetime import datetime
 from typing import List, Dict, Any
-# Importing Rich components for Day 2 UI implementation
+# Importing Rich components for UI implementation
 from rich.console import Console
 from rich.table import Table
 from rich.panel import Panel
@@ -15,15 +18,14 @@ console = Console()
 
 class ReportFormatter:
     """
-    Member 4 Module - Day 2: Advanced Terminal Reporting Engine.
-    Transforms raw scanner contracts into beautiful, color-coded terminal tables.
+    Day 3 Complete: Reporting & Formatting Engine (Member 4 Module).
+    Transforms raw scanner contracts into Rich terminal tables and exports files.
     """
     
     @staticmethod
     def display_terminal_report(resources: List[Dict[str, Any]]):
         """
-        Day 2 Logic: Takes internal Python dictionaries from Member 3 (EC2) 
-        and renders a high-grade FinOps dashboard in the terminal.
+        Renders a high-grade FinOps dashboard in the terminal using Rich.
         """
         console.print("\n")
         # Beautiful Header Box
@@ -76,9 +78,48 @@ class ReportFormatter:
         ))
         console.print("\n")
 
-# --- Standalone Testing Block for Day 2 ---
+    @staticmethod
+    def export_report(resources: List[Dict[str, Any]], format_type: str = "json", filename: str = "audit_report"):
+        """
+        Day 3 Final Feature: Saves the generated scan reports as CSV and JSON files
+        inside an auto-created 'outputs' directory.
+        """
+        if not os.path.exists("outputs"):
+            os.makedirs("outputs")
+            
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filepath = f"outputs/{filename}_{timestamp}.{format_type}"
+
+        try:
+            if format_type.lower() == "json":
+                with open(filepath, 'w', encoding='utf-8') as f:
+                    json.dump(resources, f, indent=4)
+                console.print(f"[bold green]✔ Report successfully exported to JSON: {filepath}[/bold green]")
+                
+            elif format_type.lower() == "csv":
+                with open(filepath, 'w', newline='', encoding='utf-8') as f:
+                    writer = csv.writer(f)
+                    # Header rows mapping the contract
+                    writer.writerow(["Resource ID", "Resource Type", "Region", "Status", "Avg CPU", "Wasted Cost USD"])
+                    
+                    for res in resources:
+                        metrics = res.get("metrics", {})
+                        writer.writerow([
+                            res["resource_id"],
+                            res["resource_type"],
+                            res["region"],
+                            res["status"],
+                            metrics.get("average_cpu", "N/A"),
+                            metrics.get("wasted_cost_usd", 0.0)
+                        ])
+                console.print(f"[bold green]✔ Report successfully exported to CSV: {filepath}[/bold green]")
+        except Exception as e:
+            console.print(f"[bold red]❌ Failed to export report. Error: {str(e)}[/bold red]")
+
+
+# --- Standalone Testing Block for Member 4 Complete Flow ---
 if __name__ == "__main__":
-    # Mocking Member 3's advanced dictionary data contract for testing
+    # Mocking Member 3's advanced dictionary data contract for final testing
     mock_scanned_data = [
         {
             "resource_id": "i-0abc1234def56789a",
@@ -106,5 +147,9 @@ if __name__ == "__main__":
         }
     ]
     
-    # Test terminal rendering
+    # 1. Test terminal rendering dashboard
     ReportFormatter.display_terminal_report(mock_scanned_data)
+    
+    # 2. Test File Exports
+    ReportFormatter.export_report(mock_scanned_data, format_type="json")
+    ReportFormatter.export_report(mock_scanned_data, format_type="csv")
