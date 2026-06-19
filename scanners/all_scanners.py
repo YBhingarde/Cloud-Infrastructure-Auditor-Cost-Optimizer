@@ -1,5 +1,6 @@
 from scanners.ebs_scanner import get_unattached_ebs_volumes
 from scanners.eip_scanner import get_unassociated_elastic_ips
+from scanners.formatter import format_resource
 
 
 def get_all_unused_resources():
@@ -10,6 +11,7 @@ def get_all_unused_resources():
 
     return resources
 
+
 if __name__ == "__main__":
     resources = get_all_unused_resources()
 
@@ -17,18 +19,18 @@ if __name__ == "__main__":
         print(f"\nTotal unused resources found: {len(resources)}\n")
 
         for resource in resources:
+            formatted_resource = format_resource(resource)
+
             print("-" * 50)
-            print(f"Resource Type : {resource['resource_type']}")
-            print(f"Region        : {resource['region']}")
-            print(f"Resource ID   : {resource['resource_id']}")
+
+            for key, value in formatted_resource.items():
+                print(f"{key:<15}: {value}")
 
             if resource["resource_type"] == "EBS":
-                print(f"Size (GB)     : {resource['size']}")
+                print(f"Size (GB)      : {resource['size']}")
 
             if resource["resource_type"] == "ElasticIP":
-                print(f"Public IP     : {resource['public_ip']}")
-
-            print(f"Status        : {resource['status']}")
+                print(f"Public IP      : {resource['public_ip']}")
 
     else:
         print("No unused resources found.")
