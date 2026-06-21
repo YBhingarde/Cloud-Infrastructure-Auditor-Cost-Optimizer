@@ -1,4 +1,5 @@
 from commands.scan import scan
+from utils.logger import setup_logger
 
 def show_menu():
 
@@ -11,6 +12,7 @@ def show_menu():
     print("3. Generate Report")
     print("4. Help")
     print("5. Exit")
+    log_info("Application started")
 
 
 while True:
@@ -52,6 +54,7 @@ while True:
         print("5 -> Exit application")
 
     elif choice == "5":
+        log_info("Application exited")
 
         print("Exiting application...")
 

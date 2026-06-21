@@ -1,3 +1,5 @@
+# Handles AWS session creation and profile management
+
 def create_session(profile_name, region):
 
     return {
