@@ -4,6 +4,9 @@ from scanners.formatter import format_resource
 
 
 def get_all_unused_resources():
+    """
+    Combine results from all scanners.
+    """
     resources = []
 
     resources.extend(get_unattached_ebs_volumes())
