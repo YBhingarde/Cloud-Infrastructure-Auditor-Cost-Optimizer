@@ -21,6 +21,8 @@ if __name__ == "__main__":
     if resources:
         print(f"\nTotal unused resources found: {len(resources)}\n")
 
+        total_monthly_waste = 0
+
         for resource in resources:
             formatted_resource = format_resource(resource)
 
@@ -34,6 +36,19 @@ if __name__ == "__main__":
 
             if resource["resource_type"] == "ElasticIP":
                 print(f"Public IP      : {resource['public_ip']}")
+
+            if "estimated_monthly_cost_usd" in resource:
+                print(
+                    f"Estimated Cost : ${resource['estimated_monthly_cost_usd']}/month"
+                )
+
+                total_monthly_waste += resource["estimated_monthly_cost_usd"]
+
+        print("\n" + "=" * 50)
+        print(
+            f"TOTAL ESTIMATED MONTHLY WASTE: ${total_monthly_waste:.2f}"
+        )
+        print("=" * 50)
 
     else:
         print("No unused resources found.")
