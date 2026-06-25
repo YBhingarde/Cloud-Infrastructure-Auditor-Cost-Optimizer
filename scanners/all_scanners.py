@@ -22,6 +22,8 @@ if __name__ == "__main__":
         print(f"\nTotal unused resources found: {len(resources)}\n")
 
         total_monthly_waste = 0
+        ebs_count = 0
+        eip_count = 0
 
         for resource in resources:
             formatted_resource = format_resource(resource)
@@ -32,9 +34,11 @@ if __name__ == "__main__":
                 print(f"{key:<15}: {value}")
 
             if resource["resource_type"] == "EBS":
+                ebs_count += 1
                 print(f"Size (GB)      : {resource['size']}")
 
             if resource["resource_type"] == "ElasticIP":
+                eip_count += 1
                 print(f"Public IP      : {resource['public_ip']}")
 
             if "estimated_monthly_cost_usd" in resource:
@@ -45,9 +49,12 @@ if __name__ == "__main__":
                 total_monthly_waste += resource["estimated_monthly_cost_usd"]
 
         print("\n" + "=" * 50)
-        print(
-            f"TOTAL ESTIMATED MONTHLY WASTE: ${total_monthly_waste:.2f}"
-        )
+        print("SCAN SUMMARY")
+        print("=" * 50)
+        print(f"EBS Volumes Found     : {ebs_count}")
+        print(f"Elastic IPs Found     : {eip_count}")
+        print(f"Total Resources Found : {len(resources)}")
+        print(f"Monthly Waste         : ${total_monthly_waste:.2f}")
         print("=" * 50)
 
     else:
