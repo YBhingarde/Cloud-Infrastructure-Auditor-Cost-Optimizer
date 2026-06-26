@@ -18,6 +18,12 @@ def get_all_unused_resources():
 if __name__ == "__main__":
     resources = get_all_unused_resources()
 
+    # Day 18: Sort resources by estimated monthly cost (highest first)
+    resources.sort(
+        key=lambda resource: resource.get("estimated_monthly_cost_usd", 0),
+        reverse=True
+    )
+
     if resources:
         print(f"\nTotal unused resources found: {len(resources)}\n")
 
@@ -28,7 +34,17 @@ if __name__ == "__main__":
         for resource in resources:
             formatted_resource = format_resource(resource)
 
-            print("-" * 50)
+            print("=" * 50)
+
+            # Day 18: Priority based on estimated monthly cost
+            cost = resource.get("estimated_monthly_cost_usd", 0)
+
+            if cost >= 5:
+                print("Priority       : HIGH")
+            elif cost >= 2:
+                print("Priority       : MEDIUM")
+            else:
+                print("Priority       : LOW")
 
             for key, value in formatted_resource.items():
                 print(f"{key:<15}: {value}")
@@ -42,11 +58,8 @@ if __name__ == "__main__":
                 print(f"Public IP      : {resource['public_ip']}")
 
             if "estimated_monthly_cost_usd" in resource:
-                print(
-                    f"Estimated Cost : ${resource['estimated_monthly_cost_usd']}/month"
-                )
-
-                total_monthly_waste += resource["estimated_monthly_cost_usd"]
+                print(f"Estimated Cost : ${cost:.2f}/month")
+                total_monthly_waste += cost
 
         print("\n" + "=" * 50)
         print("SCAN SUMMARY")
