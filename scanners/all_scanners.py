@@ -18,7 +18,7 @@ def get_all_unused_resources():
 if __name__ == "__main__":
     resources = get_all_unused_resources()
 
-    # Day 18: Sort resources by estimated monthly cost (highest first)
+    # Sort by estimated monthly cost (highest first)
     resources.sort(
         key=lambda resource: resource.get("estimated_monthly_cost_usd", 0),
         reverse=True
@@ -36,7 +36,6 @@ if __name__ == "__main__":
 
             print("=" * 50)
 
-            # Day 18: Priority based on estimated monthly cost
             cost = resource.get("estimated_monthly_cost_usd", 0)
 
             if cost >= 5:
@@ -52,14 +51,24 @@ if __name__ == "__main__":
             if resource["resource_type"] == "EBS":
                 ebs_count += 1
                 print(f"Size (GB)      : {resource['size']}")
+                recommendation = (
+                    "Delete unattached EBS volume if no longer needed."
+                )
 
-            if resource["resource_type"] == "ElasticIP":
+            elif resource["resource_type"] == "ElasticIP":
                 eip_count += 1
                 print(f"Public IP      : {resource['public_ip']}")
+                recommendation = (
+                    "Release unused Elastic IP to avoid charges."
+                )
 
-            if "estimated_monthly_cost_usd" in resource:
-                print(f"Estimated Cost : ${cost:.2f}/month")
-                total_monthly_waste += cost
+            else:
+                recommendation = "Review this resource."
+
+            print(f"Estimated Cost : ${cost:.2f}/month")
+            print(f"Recommendation : {recommendation}")
+
+            total_monthly_waste += cost
 
         print("\n" + "=" * 50)
         print("SCAN SUMMARY")
