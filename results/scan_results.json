@@ -1,0 +1,7 @@
+{
+    "profile": "dev",
+    "region": "ap-south-1",
+    "ec2_instances": 0,
+    "s3_buckets": 0,
+    "status": "Success"
+}
