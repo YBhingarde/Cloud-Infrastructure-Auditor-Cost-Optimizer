@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from scanners.ebs_scanner import get_unattached_ebs_volumes
 from scanners.eip_scanner import get_unassociated_elastic_ips
 from scanners.formatter import format_resource
@@ -18,6 +20,8 @@ def get_all_unused_resources():
 if __name__ == "__main__":
     resources = get_all_unused_resources()
 
+    scan_time = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+
     # Sort by estimated monthly cost (highest first)
     resources.sort(
         key=lambda resource: resource.get("estimated_monthly_cost_usd", 0),
@@ -25,7 +29,13 @@ if __name__ == "__main__":
     )
 
     if resources:
-        print(f"\nTotal unused resources found: {len(resources)}\n")
+        print("=" * 50)
+        print("CLOUD INFRASTRUCTURE AUDITOR")
+        print("=" * 50)
+        print(f"Scan Time : {scan_time}")
+        print()
+
+        print(f"Total unused resources found: {len(resources)}\n")
 
         total_monthly_waste = 0
         ebs_count = 0
@@ -80,4 +90,8 @@ if __name__ == "__main__":
         print("=" * 50)
 
     else:
-        print("No unused resources found.")
+        print("=" * 50)
+        print("CLOUD INFRASTRUCTURE AUDITOR")
+        print("=" * 50)
+        print(f"Scan Time : {scan_time}")
+        print("\nNo unused resources found.")
