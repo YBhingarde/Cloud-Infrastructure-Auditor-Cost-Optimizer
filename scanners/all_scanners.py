@@ -22,10 +22,10 @@ if __name__ == "__main__":
 
     scan_time = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
 
-    # Sort by estimated monthly cost (highest first)
+    # Sort resources by estimated monthly cost (highest first)
     resources.sort(
         key=lambda resource: resource.get("estimated_monthly_cost_usd", 0),
-        reverse=True
+        reverse=True,
     )
 
     if resources:
@@ -61,16 +61,12 @@ if __name__ == "__main__":
             if resource["resource_type"] == "EBS":
                 ebs_count += 1
                 print(f"Size (GB)      : {resource['size']}")
-                recommendation = (
-                    "Delete unattached EBS volume if no longer needed."
-                )
+                recommendation = "Delete unattached EBS volume if no longer needed."
 
             elif resource["resource_type"] == "ElasticIP":
                 eip_count += 1
                 print(f"Public IP      : {resource['public_ip']}")
-                recommendation = (
-                    "Release unused Elastic IP to avoid charges."
-                )
+                recommendation = "Release unused Elastic IP to avoid charges."
 
             else:
                 recommendation = "Review this resource."
@@ -87,6 +83,8 @@ if __name__ == "__main__":
         print(f"Elastic IPs Found     : {eip_count}")
         print(f"Total Resources Found : {len(resources)}")
         print(f"Monthly Waste         : ${total_monthly_waste:.2f}")
+        print(f"Potential Savings     : ${total_monthly_waste:.2f}/month")
+        print("Suggested Action      : Clean up unused resources to reduce AWS costs.")
         print("=" * 50)
 
     else:
