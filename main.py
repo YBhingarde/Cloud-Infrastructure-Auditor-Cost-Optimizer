@@ -1,5 +1,7 @@
 from commands.scan import scan
-from utils.logger import setup_logger
+from commands.view_results import view_results
+from commands.report import generate_report
+from utils.logger import log_info
 
 def show_menu():
 
@@ -26,20 +28,11 @@ while True:
         scan()
 
     elif choice == "2":
-
-        print("\n===== View Results =====")
-
-        print("No scan results available.")
-
-        print("Run Scan Resources first.")
+        view_results()
 
     elif choice == "3":
 
-        print("\n===== Generate Report =====")
-
-        print("No report data available.")
-
-        print("Run Scan Resources first.")
+        generate_report()
 
     elif choice == "4":
 

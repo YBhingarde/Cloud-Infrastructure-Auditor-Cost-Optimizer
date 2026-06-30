@@ -1,23 +1,21 @@
 import json
+import os
 
 def view_results():
 
-    try:
+    file_path = "results/scan_results.json"
 
-        with open("results.json", "r") as file:
+    if not os.path.exists(file_path):
+        print("\nNo scan results found.")
+        return
 
-            data = json.load(file)
+    with open(file_path, "r") as file:
+        result = json.load(file)
 
-        print("\n===== Scan Results =====")
-
-        print(f"AWS Profile : {data['profile']}")
-
-        print(f"AWS Region : {data['region']}")
-
-        print(f"EC2 Instances : {data['ec2']}")
-
-        print(f"S3 Buckets : {data['s3']}")
-
-    except:
-
-        print("No scan results found. Run option 1 first.")
+    print("\n========== Previous Scan ==========")
+    print(f"Profile : {result['profile']}")
+    print(f"Region  : {result['region']}")
+    print(f"EC2 Instances : {result['ec2_instances']}")
+    print(f"S3 Buckets    : {result['s3_buckets']}")
+    print(f"Status        : {result['status']}")
+    print("===================================")
