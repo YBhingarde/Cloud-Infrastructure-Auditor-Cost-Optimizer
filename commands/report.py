@@ -1,29 +1,28 @@
 import json
+import os
 
 def generate_report():
+    file_path = "results/scan_results.json"
 
-    try:
+    if not os.path.exists(file_path):
+        print("\nNo scan results found. Run Scan Resources first.")
+        return
 
-        with open("results.json", "r") as file:
+    with open(file_path, "r") as file:
+        result = json.load(file)
 
-            data = json.load(file)
+    os.makedirs("reports", exist_ok=True)
 
-        with open("report.txt", "w") as report:
+    report_path = "reports/report.txt"
 
-            report.write("Cloud Infrastructure Report\n")
+    with open(report_path, "w") as report:
+        report.write("Cloud Infrastructure Audit Report\n")
+        report.write("=" * 40 + "\n")
+        report.write(f"Profile : {result['profile']}\n")
+        report.write(f"Region  : {result['region']}\n")
+        report.write(f"EC2 Instances : {result['ec2_instances']}\n")
+        report.write(f"S3 Buckets    : {result['s3_buckets']}\n")
+        report.write(f"Status        : {result['status']}\n")
 
-            report.write("---------------------------\n")
-
-            report.write(f"Profile : {data['profile']}\n")
-
-            report.write(f"Region : {data['region']}\n")
-
-            report.write(f"EC2 : {data['ec2']}\n")
-
-            report.write(f"S3 : {data['s3']}\n")
-
-        print("Report generated successfully.")
-
-    except:
-
-        print("No scan results available.")
+    print(f"\nReport generated successfully!")
+    print(f"Saved to: {report_path}")
