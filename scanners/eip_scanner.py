@@ -5,7 +5,11 @@ from aws.ec2_client import get_ec2_client
 
 def get_unassociated_elastic_ips():
     """
-    Scan all supported regions and return unassociated Elastic IPs.
+    Scans all supported AWS regions and identifies
+    unassociated Elastic IP addresses.
+
+    Returns:
+        list: List of unused Elastic IP details.
     """
     unused_ips = []
 
@@ -25,12 +29,6 @@ def get_unassociated_elastic_ips():
                             "public_ip": address["PublicIp"],
                             "status": "unassociated",
                             "estimated_monthly_cost_usd": 3.60,
-                            "metrics": {
-                                "average_cpu": "N/A",
-                                "days_window": 14,
-                                "wasted_cost_usd": 0.0
-                            },
-                            "tags": {}
                         }
                     )
 
@@ -38,7 +36,3 @@ def get_unassociated_elastic_ips():
             print(f"[EIP Scanner] Failed to scan region {region}: {e}")
 
     return unused_ips
-
-
-if __name__ == "__main__":
-    print(get_unassociated_elastic_ips())

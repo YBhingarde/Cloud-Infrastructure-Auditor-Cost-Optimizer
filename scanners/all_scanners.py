@@ -7,7 +7,11 @@ from scanners.formatter import format_resource
 
 def get_all_unused_resources():
     """
-    Combine results from all scanners.
+    Collects unused AWS resources from all available scanner modules.
+
+    Returns:
+        list: A list of dictionaries containing information about
+        unused EBS volumes and Elastic IPs.
     """
     resources = []
 
@@ -22,7 +26,6 @@ if __name__ == "__main__":
 
     scan_time = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
 
-    # Sort resources by estimated monthly cost (highest first)
     resources.sort(
         key=lambda resource: resource.get("estimated_monthly_cost_usd", 0),
         reverse=True,
@@ -61,12 +64,16 @@ if __name__ == "__main__":
             if resource["resource_type"] == "EBS":
                 ebs_count += 1
                 print(f"Size (GB)      : {resource['size']}")
-                recommendation = "Delete unattached EBS volume if no longer needed."
+                recommendation = (
+                    "Delete unattached EBS volume if no longer needed."
+                )
 
             elif resource["resource_type"] == "ElasticIP":
                 eip_count += 1
                 print(f"Public IP      : {resource['public_ip']}")
-                recommendation = "Release unused Elastic IP to avoid charges."
+                recommendation = (
+                    "Release unused Elastic IP to avoid charges."
+                )
 
             else:
                 recommendation = "Review this resource."
