@@ -64,16 +64,12 @@ if __name__ == "__main__":
             if resource["resource_type"] == "EBS":
                 ebs_count += 1
                 print(f"Size (GB)      : {resource['size']}")
-                recommendation = (
-                    "Delete unattached EBS volume if no longer needed."
-                )
+                recommendation = "Delete unattached EBS volume if no longer needed."
 
             elif resource["resource_type"] == "ElasticIP":
                 eip_count += 1
                 print(f"Public IP      : {resource['public_ip']}")
-                recommendation = (
-                    "Release unused Elastic IP to avoid charges."
-                )
+                recommendation = "Release unused Elastic IP to avoid charges."
 
             else:
                 recommendation = "Review this resource."
@@ -94,9 +90,14 @@ if __name__ == "__main__":
         print("Suggested Action      : Clean up unused resources to reduce AWS costs.")
         print("=" * 50)
 
+        print("\nScan Status           : COMPLETED")
+        print("Audit Result          : SUCCESS")
+        print(f"Report Generated At   : {scan_time}")
+
     else:
         print("=" * 50)
         print("CLOUD INFRASTRUCTURE AUDITOR")
         print("=" * 50)
         print(f"Scan Time : {scan_time}")
         print("\nNo unused resources found.")
+        print("Scan Status           : COMPLETED")
