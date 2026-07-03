@@ -19,3 +19,4 @@ def view_results():
     print(f"S3 Buckets    : {result['s3_buckets']}")
     print(f"Status        : {result['status']}")
     print("===================================")
+    print(f"Scan Time     : {result['scan_time']}")

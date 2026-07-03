@@ -23,6 +23,7 @@ def generate_report():
         report.write(f"EC2 Instances : {result['ec2_instances']}\n")
         report.write(f"S3 Buckets    : {result['s3_buckets']}\n")
         report.write(f"Status        : {result['status']}\n")
+        report.write(f"Scan Time : {result['scan_time']}\n")
 
     print(f"\nReport generated successfully!")
     print(f"Saved to: {report_path}")

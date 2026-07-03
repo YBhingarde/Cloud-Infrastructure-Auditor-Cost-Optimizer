@@ -3,5 +3,6 @@
     "region": "ap-south-1",
     "ec2_instances": 0,
     "s3_buckets": 0,
-    "status": "Success"
+    "status": "Success",
+    "scan_time": "03-07-2026 20:26:23"
 }

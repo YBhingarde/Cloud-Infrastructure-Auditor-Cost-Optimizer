@@ -6,6 +6,7 @@ from aws.auth import authenticate
 from aws.session_manager import list_profiles
 from aws.regions import SUPPORTED_REGIONS
 from utils.logger import log_info
+from datetime import datetime
 
 
 def scan():
@@ -54,14 +55,16 @@ def scan():
     print(f"Profile : {profile}")
     print(f"Region  : {region}")
 
+   
+
     result = {
         "profile": profile,
         "region": region,
         "ec2_instances": 0,
         "s3_buckets": 0,
-        "status": "Success"
-    }
-
+        "status": "Success",
+        "scan_time": datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+}
     os.makedirs("results", exist_ok=True)
 
     with open("results/scan_results.json", "w") as file:
