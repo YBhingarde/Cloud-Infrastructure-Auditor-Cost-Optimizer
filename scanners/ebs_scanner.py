@@ -1,4 +1,3 @@
-
 from aws.regions import get_regions
 from botocore.exceptions import ClientError
 from aws.ec2_client import get_ec2_client
@@ -6,7 +5,11 @@ from aws.ec2_client import get_ec2_client
 
 def get_unattached_ebs_volumes():
     """
-    Scan all supported regions and return unattached EBS volumes.
+    Scans all supported AWS regions and identifies unattached
+    EBS volumes.
+
+    Returns:
+        list: List of unattached EBS volume details.
     """
     unattached_volumes = []
 
@@ -25,6 +28,9 @@ def get_unattached_ebs_volumes():
                             "resource_id": volume["VolumeId"],
                             "size": volume["Size"],
                             "status": volume["State"],
+                            "estimated_monthly_cost_usd": round(
+                                volume["Size"] * 0.10, 2
+                            ),
                         }
                     )
 

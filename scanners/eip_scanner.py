@@ -1,4 +1,3 @@
-
 from aws.regions import get_regions
 from botocore.exceptions import ClientError
 from aws.ec2_client import get_ec2_client
@@ -6,7 +5,11 @@ from aws.ec2_client import get_ec2_client
 
 def get_unassociated_elastic_ips():
     """
-    Scan all supported regions and return unassociated Elastic IPs.
+    Scans all supported AWS regions and identifies
+    unassociated Elastic IP addresses.
+
+    Returns:
+        list: List of unused Elastic IP details.
     """
     unused_ips = []
 
@@ -25,6 +28,7 @@ def get_unassociated_elastic_ips():
                             "resource_id": address.get("AllocationId"),
                             "public_ip": address["PublicIp"],
                             "status": "unassociated",
+                            "estimated_monthly_cost_usd": 3.60,
                         }
                     )
 
