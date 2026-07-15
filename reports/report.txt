@@ -1,7 +1,7 @@
 Cloud Infrastructure Audit Report
 ========================================
 Profile : dev
-Region  : ap-south-1
-EC2 Instances : 0
+Region  : us-west-2
+EC2 Instances : 2
 S3 Buckets    : 0
 Status        : Success

@@ -1,0 +1,31 @@
+[
+    {
+        "resource_id": "i-0abc1234def56789a",
+        "resource_type": "EC2_INSTANCE",
+        "region": "ap-south-1",
+        "status": "running",
+        "metrics": {
+            "average_cpu": 1.45,
+            "days_window": 14,
+            "wasted_cost_usd": 60.8
+        },
+        "tags": {
+            "Environment": "Dev",
+            "Owner": "Yash"
+        }
+    },
+    {
+        "resource_id": "i-099988887777aaaa6",
+        "resource_type": "EC2_INSTANCE",
+        "region": "us-east-1",
+        "status": "running",
+        "metrics": {
+            "average_cpu": 3.2,
+            "days_window": 14,
+            "wasted_cost_usd": 8.5
+        },
+        "tags": {
+            "Environment": "Testing"
+        }
+    }
+]
